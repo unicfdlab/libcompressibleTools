@@ -1,7 +1,8 @@
 #!/bin/bash
 
-source libEnv.sh
+source ./libEnv.sh
 
+ls "FoamFourierAnalysis/$FFTW_LIB"
 cd FoamFourierAnalysis/$FFTW_LIB
 make clean
 make distclean

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source libEnv.sh
+source ./libEnv.sh
 
 cd FoamFourierAnalysis/$FFTW_LIB
 make clean

@@ -29,7 +29,7 @@ fi
 
 cd $THIS_DIR
 
-#wmake libso
+wmake libso
 #
 #END-OF-FILE
 #
