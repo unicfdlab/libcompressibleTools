@@ -8,5 +8,9 @@ FoamFourierAnalysis/FoamFftwDriver.C
 
 bicgStabSolver/bicgStabSolver.C
 
+additionalPsiThermo/additionalPsiThermos.C
+
+fvOptions/constraints/limitScalarField/limitScalarFieldConstraint.C
+
 LIB = $(FOAM_USER_LIBBIN)/libcompressibleTools
 
