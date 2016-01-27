@@ -1,5 +1,6 @@
 subsonicSupersonicPressureOutlet/subsonicSupersonicPressureOutletFvPatchScalarField.C
 timeVaryingTotalPressure/timeVaryingTotalPressureFvPatchScalarField.C
+varyingGammaTotalTemperature/varyingGammaTotalTemperatureFvPatchScalarField.C
 
 PumpStat/PumpStat.C
 PumpStat/PumpStatFunctionObject.C
