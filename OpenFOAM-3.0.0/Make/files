@@ -12,6 +12,7 @@ bicgStabSolver/bicgStabSolver.C
 additionalPsiThermo/additionalPsiThermos.C
 
 fvOptions/constraints/limitScalarField/limitScalarFieldConstraint.C
+fvOptions/corrections/psiLimitDensity/psiLimitDensity.C
 
 LIB = $(FOAM_USER_LIBBIN)/libcompressibleTools
 

@@ -156,12 +156,12 @@ class timeVaryingTotalPressureFvPatchScalarField
         //- Name of the density field used to normalise the mass flux
         //  if neccessary
         word rhoName_;
-
-        //- Name of the compressibility field used to calculate the wave speed
-        word psiName_;
-
-        //- Heat capacity ratio
-        scalar gamma_;
+        
+        //-
+        Switch useGamma_;
+        
+        //-
+        Switch compressible_;
 
         //- Total pressure
         autoPtr<DataEntry<scalar> > p0_;
@@ -276,31 +276,6 @@ public:
             word& rhoName()
             {
                 return rhoName_;
-            }
-
-            //- Return the name of the compressibility field
-            const word& psiName() const
-            {
-                return psiName_;
-            }
-
-            //- Return reference to the name of the compressibility field
-            //  to allow adjustment
-            word& psiName()
-            {
-                return psiName_;
-            }
-
-            //- Return the heat capacity ratio
-            scalar gamma() const
-            {
-                return gamma_;
-            }
-
-            //- Return reference to the heat capacity ratio to allow adjustment
-            scalar& gamma()
-            {
-                return gamma_;
             }
 
 

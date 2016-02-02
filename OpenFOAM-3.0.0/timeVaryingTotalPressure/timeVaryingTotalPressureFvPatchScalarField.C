@@ -28,6 +28,7 @@ License
 #include "fvPatchFieldMapper.H"
 #include "volFields.H"
 #include "surfaceFields.H"
+#include "psiThermo.H"
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
@@ -42,8 +43,8 @@ Foam::timeVaryingTotalPressureFvPatchScalarField::timeVaryingTotalPressureFvPatc
     UName_("U"),
     phiName_("phi"),
     rhoName_("none"),
-    psiName_("none"),
-    gamma_(0.0),
+    useGamma_(false),
+    compressible_(false),
     p0_()
 {}
 
@@ -59,15 +60,26 @@ Foam::timeVaryingTotalPressureFvPatchScalarField::timeVaryingTotalPressureFvPatc
     UName_(dict.lookupOrDefault<word>("U", "U")),
     phiName_(dict.lookupOrDefault<word>("phi", "phi")),
     rhoName_(dict.lookupOrDefault<word>("rho", "none")),
-    psiName_(dict.lookupOrDefault<word>("psi", "none")),
-    gamma_(readScalar(dict.lookup("gamma"))),
+    useGamma_((dict.lookup("useGamma"))),
+    compressible_((dict.lookup("compressible"))),
     p0_(
 	DataEntry<scalar>::New ("p0", dict)
     )
 {
-    const scalar ct = db().time().timeOutputValue();
-    scalarField p0 (this->size(), p0_->value(ct));
-    this->operator == (p0);
+    if (dict.found("value"))
+    {
+        fvPatchField<scalar>::operator=
+        (
+            scalarField("value", dict, p.size())
+        );
+    }
+    else
+    {
+        const scalar ct = db().time().timeOutputValue();
+        scalarField p0 (this->size(), p0_->value(ct));
+        this->operator == (p0);
+    }
+    
 }
 
 
@@ -83,8 +95,8 @@ Foam::timeVaryingTotalPressureFvPatchScalarField::timeVaryingTotalPressureFvPatc
     UName_(ptf.UName_),
     phiName_(ptf.phiName_),
     rhoName_(ptf.rhoName_),
-    psiName_(ptf.psiName_),
-    gamma_(ptf.gamma_),
+    useGamma_(ptf.useGamma_),
+    compressible_(ptf.compressible_),
     p0_(ptf.p0_().clone().ptr())
 {}
 
@@ -98,8 +110,8 @@ Foam::timeVaryingTotalPressureFvPatchScalarField::timeVaryingTotalPressureFvPatc
     UName_(tppsf.UName_),
     phiName_(tppsf.phiName_),
     rhoName_(tppsf.rhoName_),
-    psiName_(tppsf.psiName_),
-    gamma_(tppsf.gamma_),
+    useGamma_(tppsf.useGamma_),
+    compressible_(tppsf.compressible_),
     p0_(tppsf.p0_().clone().ptr())
 {}
 
@@ -114,8 +126,8 @@ Foam::timeVaryingTotalPressureFvPatchScalarField::timeVaryingTotalPressureFvPatc
     UName_(tppsf.UName_),
     phiName_(tppsf.phiName_),
     rhoName_(tppsf.rhoName_),
-    psiName_(tppsf.psiName_),
-    gamma_(tppsf.gamma_),
+    useGamma_(tppsf.useGamma_),
+    compressible_(tppsf.compressible_),
     p0_(tppsf.p0_().clone().ptr())
 {}
 
@@ -155,18 +167,33 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs
     const fvsPatchField<scalar>& phip =
         patch().lookupPatchField<surfaceScalarField, scalar>(phiName_);
 
-    if (psiName_ == "none" && rhoName_ == "none")
+    if (!compressible_ && rhoName_ == "none")
     {
         operator==(p0p - 0.5*(1.0 - pos(phip))*magSqr(Up));
     }
-    else if (rhoName_ == "none")
+    else if (compressible_)
     {
-        const fvPatchField<scalar>& psip =
-            patch().lookupPatchField<volScalarField, scalar>(psiName_);
+        const psiThermo& thermo = 
+                this->patch().boundaryMesh().mesh().thisDb().lookupObject<psiThermo>("thermophysicalProperties");
 
-        if (gamma_ > 1.0)
+        const fvPatchField<scalar>& psip = 
+            thermo.psi().boundaryField()[patch().index()];
+        
+        if (useGamma_)
         {
-            scalar gM1ByG = (gamma_ - 1.0)/gamma_;
+
+            const fvPatchField<scalar>& pp =
+                thermo.p().boundaryField()[patch().index()];
+        
+            const fvPatchField<scalar>& Tp =
+                thermo.T().boundaryField()[patch().index()];
+        
+            scalarField gammap
+            (
+                thermo.gamma(pp, Tp, patch().index())
+            );
+            
+            scalarField gM1ByG = (gammap - 1.0)/gammap;
 
             operator==
             (
@@ -183,7 +210,7 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs
             operator==(p0p/(1.0 + 0.5*psip*(1.0 - pos(phip))*magSqr(Up)));
         }
     }
-    else if (psiName_ == "none")
+    else if (!compressible_ && rhoName_ != "none")
     {
         const fvPatchField<scalar>& rho =
             patch().lookupPatchField<volScalarField, scalar>(rhoName_);
@@ -194,9 +221,9 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs
         FatalErrorIn
         (
             "timeVaryingTotalPressureFvPatchScalarField::updateCoeffs()"
-        )   << " rho or psi set inconsistently, rho = " << rhoName_
-            << ", psi = " << psiName_ << ".\n"
-            << "    Set either rho or psi or neither depending on the "
+        )   << " rho or compressibility set inconsistently, rho = " << rhoName_
+            << ", compressibility = " << compressible_ << ".\n"
+            << "    Set either rho or compressible_ or neither depending on the "
                "definition of total pressure." << nl
             << "    Set the unused variable(s) to 'none'.\n"
             << "    on patch " << this->patch().name()
@@ -204,6 +231,8 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs
             << " in file " << this->dimensionedInternalField().objectPath()
             << exit(FatalError);
     }
+    
+    Info << "Max/min of pressure at patch is: " << gMax(*this) << "/" << gMin(*this) << endl;
 
     fixedValueFvPatchScalarField::updateCoeffs();
 }
@@ -234,8 +263,8 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::write(Ostream& os) const
     writeEntryIfDifferent<word>(os, "U", "U", UName_);
     writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
     os.writeKeyword("rho") << rhoName_ << token::END_STATEMENT << nl;
-    os.writeKeyword("psi") << psiName_ << token::END_STATEMENT << nl;
-    os.writeKeyword("gamma") << gamma_ << token::END_STATEMENT << nl;
+    os.writeKeyword("compressible") << compressible_ << token::END_STATEMENT << nl;
+    os.writeKeyword("useGamma") << useGamma_ << token::END_STATEMENT << nl;
     p0_->writeData(os);
     writeEntry("value", os);
 }
