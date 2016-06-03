@@ -1,0 +1,18 @@
+subsonicSupersonicPressureOutlet/subsonicSupersonicPressureOutletFvPatchScalarField.C
+timeVaryingTotalPressure/timeVaryingTotalPressureFvPatchScalarField.C
+varyingGammaTotalTemperature/varyingGammaTotalTemperatureFvPatchScalarField.C
+
+PumpStat/PumpStat.C
+PumpStat/PumpStatFunctionObject.C
+
+FoamFourierAnalysis/FoamFftwDriver.C
+
+bicgStabSolver/bicgStabSolver.C
+
+additionalPsiThermo/additionalPsiThermos.C
+
+fvOptions/constraints/limitScalarField/limitScalarFieldConstraint.C
+fvOptions/corrections/psiLimitDensity/psiLimitDensity.C
+
+LIB = $(FOAM_USER_LIBBIN)/libcompressibleTools
+
