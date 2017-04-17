@@ -103,17 +103,17 @@ makeThermo
     specie
 );
 
-makeThermo
-(
-    psiThermo,
-    hePsiThermo,
-    pureMixture,
-    polynomial,
-    sensibleEnthalpy,
-    hPolynomialThermo,
-    perfectGas,
-    specie
-);
+//makeThermo
+//(
+//    psiThermo,
+//    hePsiThermo,
+//    pureMixture,
+//    polynomial,
+//    sensibleEnthalpy,
+//    hPolynomialThermo,
+//    perfectGas,
+//    specie
+//);
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
