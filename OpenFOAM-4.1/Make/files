@@ -31,5 +31,10 @@ functionObjects/PumpStat/PumpStat.C
  */
 additionalPsiThermo/additionalPsiThermos.C
 
+/*
+ * Turbulence models
+ */
+TurbulentModels/compressible/additionalCompressibleTurbulenceModels.C
+
 LIB = $(FOAM_USER_LIBBIN)/libcompressibleTools
 
