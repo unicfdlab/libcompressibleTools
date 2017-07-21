@@ -13,8 +13,7 @@ EXE_INC = \
     -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/fvOptions/lnInclude \
-    -I$(LIB_SRC)/functionObjects/forces/lnInclude \
-    -I$(fftw_root)/include
+    -I$(LIB_SRC)/functionObjects/forces/lnInclude 
 
 LIB_LIBS = \
     -lfiniteVolume \
@@ -28,8 +27,6 @@ LIB_LIBS = \
     -lmeshTools \
     -lfvOptions \
     -lsampling \
-    -lforces \
-    -L$(FOAM_USER_LIBBIN) \
-    -lfftw3
+    -lforces 
 
 
