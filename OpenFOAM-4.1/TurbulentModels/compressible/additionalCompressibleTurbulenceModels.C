@@ -10,10 +10,11 @@
 #include "laminar.H"
 #include "RASModel.H"
 #include "LESModel.H"
+#include "declareBaseTurbulenceModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-makeBaseTurbulenceModel
+declareBaseTurbulenceModel
 (
     geometricOneField,
     volScalarField,
