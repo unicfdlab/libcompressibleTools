@@ -1,0 +1,41 @@
+/*
+ * Controllers
+ */
+controllerModels/controllerModel/controllerModel.C
+controllerModels/PIDController/PIDController.C
+controllerModels/standardPIDController/standardPIDController.C
+
+/*
+ * Fv Patch Fields
+ */
+fvPatchFields/subsonicSupersonicPressureOutlet/subsonicSupersonicPressureOutletFvPatchScalarField.C
+fvPatchFields/timeVaryingTotalPressure/timeVaryingTotalPressureFvPatchScalarField.C
+fvPatchFields/varyingGammaTotalTemperature/varyingGammaTotalTemperatureFvPatchScalarField.C
+fvPatchFields/flowRateControlledWithPressure/flowRateControlledWithPressureFvPatchScalarField.C
+fvPatchFields/normalDirectionInletOutlet/normalDirectionInletOutletFvPatchFields.C
+
+/*
+ * fvOptions
+ */
+fvOptions/constraints/limitScalarField/limitScalarFieldConstraint.C
+fvOptions/corrections/psiLimitDensity/psiLimitDensity.C
+fvOptions/corrections/setComponentValue/setComponentValue.C
+
+/*
+ * Function Objects
+ */
+functionObjects/maxCellCourantFunctionObject/maxCellCourant.C
+functionObjects/PumpStat/PumpStat.C
+
+/*
+ * Thermophysical properties
+ */
+additionalPsiThermo/additionalPsiThermos.C
+
+/*
+ * Turbulence models
+ */
+/* TurbulentModels/compressible/additionalCompressibleTurbulenceModels.C */
+
+LIB = $(FOAM_USER_LIBBIN)/libcompressibleTools
+
