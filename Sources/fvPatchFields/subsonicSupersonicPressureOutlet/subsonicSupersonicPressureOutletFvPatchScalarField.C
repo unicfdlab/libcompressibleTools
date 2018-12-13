@@ -146,7 +146,8 @@ void Foam::subsonicSupersonicPressureOutletFvPatchScalarField::updateCoeffs()
 	{
 	    this->valueFraction()[iFace] = 1.0;
 	    this->refValue()[iFace] = 
-		p0_[iFace] - this->operator[](iFace)*psip[iFace]*magSqr(Up[iFace])*0.5*(1.0 - pos(phip[iFace]));
+	        p0_[iFace] / (1 + psip[iFace]*magSqr(Up[iFace])*0.5*(1.0 - pos(phip[iFace])));
+		//p0_[iFace] - this->operator[](iFace)*psip[iFace]*magSqr(Up[iFace])*0.5*(1.0 - pos(phip[iFace]));
 	    this->refGrad()[iFace] = 0.0;
 	}
 	else
