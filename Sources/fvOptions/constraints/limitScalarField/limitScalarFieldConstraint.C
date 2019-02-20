@@ -59,7 +59,7 @@ Foam::fv::limitScalarFieldConstraint::limitScalarFieldConstraint
 )
 :
     cellSetOption(name, modelType, dict, mesh),
-    fieldValue_(NULL),
+    fieldValue_(nullptr),
     scaleCoeff_(1.0),
     fieldName_("p")
 {

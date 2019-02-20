@@ -347,7 +347,7 @@ void Foam::functionObjects::PumpStat::makeFile()
 {
     if (Pstream::master())
     {
-        if (files().size() >= 3)
+        if (pumpStatPtr_.valid())
         {
             return;
         }
@@ -373,24 +373,22 @@ void Foam::functionObjects::PumpStat::makeFile()
     if (Pstream::master() || !Pstream::parRun())
     {
         // Create the PumpStat file if not already created
-        files().resize(3);
-        files().set
+        pumpStatPtr_.reset
         (
-            2,
             new OFstream
             (
                 PumpStatDir + "/" + (name() + "-time.dat")
             )
         );
         
-        files()[2]<< "Time ";
+        pumpStatPtr_()<< "Time ";
         
         forAll (vnames_, iName)
         {
-            files()[2]<< vnames_[iName] << " ";
+            pumpStatPtr_()<< vnames_[iName] << " ";
         }
         
-        files()[2]<< endl;
+        pumpStatPtr_()<< endl;
     }
 }
 
@@ -416,14 +414,14 @@ bool Foam::functionObjects::PumpStat::write()
     if (Pstream::master() || !Pstream::parRun())
     {
         // time history output
-        files()[2] << (cTime - timeStart_) << " ";
+        pumpStatPtr_() << (cTime - timeStart_) << " ";
         
         forAll(values_, iValue)
         {
-            files()[2] << values_[iValue] << " ";
+            pumpStatPtr_() << values_[iValue] << " ";
         }
         
-        files()[2] << endl;
+        pumpStatPtr_() << endl;
     }
     
     return true;

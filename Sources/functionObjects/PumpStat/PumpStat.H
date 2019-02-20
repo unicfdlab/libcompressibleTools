@@ -108,6 +108,9 @@ protected:
         
         //-
         List<word> vnames_;
+        
+        //-
+        autoPtr<OFstream> pumpStatPtr_;
 
 
     // Private Member Functions

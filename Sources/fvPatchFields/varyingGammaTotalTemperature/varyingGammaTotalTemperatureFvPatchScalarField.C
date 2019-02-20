@@ -182,8 +182,8 @@ void Foam::varyingGammaTotalTemperatureFvPatchScalarField::updateCoeffs()
 void Foam::varyingGammaTotalTemperatureFvPatchScalarField::write(Ostream& os) const
 {
     fvPatchScalarField::write(os);
-    writeEntryIfDifferent<word>(os, "U", "U", UName_);
-    writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
+    os.writeEntryIfDifferent<word>("U", "U", UName_);
+    os.writeEntryIfDifferent<word>("phi", "phi", phiName_);
     T0_.writeEntry("T0", os);
     writeEntry("value", os);
 }

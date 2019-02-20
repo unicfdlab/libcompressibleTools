@@ -92,7 +92,7 @@ Foam::normalDirectionInletOutletFvPatchField<Type>::normalDirectionInletOutletFv
     Uref_(ptf.Uref_),
     tol_(ptf.tol_),
     phiRef_((p.Sf()/p.magSf()) & Uref_),
-    uniformInletValue_(ptf.uniformInletValue_, false)
+    uniformInletValue_(ptf.uniformInletValue_)
 {
     this->patchType() = ptf.patchType();
 
@@ -120,7 +120,7 @@ Foam::normalDirectionInletOutletFvPatchField<Type>::normalDirectionInletOutletFv
     Uref_(ptf.Uref_),
     tol_(ptf.tol_),
     phiRef_((this->patch().Sf() / this->patch().magSf()) & Uref_),
-    uniformInletValue_(ptf.uniformInletValue_, false)
+    uniformInletValue_(ptf.uniformInletValue_)
 {}
 
 
@@ -135,7 +135,7 @@ Foam::normalDirectionInletOutletFvPatchField<Type>::normalDirectionInletOutletFv
     Uref_(ptf.Uref_),
     tol_(ptf.tol_),
     phiRef_(this->patch().nf() & Uref_),
-    uniformInletValue_(ptf.uniformInletValue_, false)
+    uniformInletValue_(ptf.uniformInletValue_)
 {}
 
 

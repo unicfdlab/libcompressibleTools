@@ -261,8 +261,8 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs()
 void Foam::timeVaryingTotalPressureFvPatchScalarField::write(Ostream& os) const
 {
     fvPatchScalarField::write(os);
-    writeEntryIfDifferent<word>(os, "U", "U", UName_);
-    writeEntryIfDifferent<word>(os, "phi", "phi", phiName_);
+    os.writeEntryIfDifferent<word>("U", "U", UName_);
+    os.writeEntryIfDifferent<word>("phi", "phi", phiName_);
     os.writeKeyword("rho") << rhoName_ << token::END_STATEMENT << nl;
     os.writeKeyword("compressible") << compressible_ << token::END_STATEMENT << nl;
     os.writeKeyword("useGamma") << useGamma_ << token::END_STATEMENT << nl;
