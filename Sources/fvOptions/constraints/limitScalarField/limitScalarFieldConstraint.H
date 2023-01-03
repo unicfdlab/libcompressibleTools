@@ -25,7 +25,7 @@ Class
     Foam::fv::limitScalarFieldConstraint
 
 Description
-    Fixed temperature equation constraint
+    Limits scalar field values by specifying minimum boundary.
 
     Sources described by:
 
@@ -34,10 +34,12 @@ Description
             mode            uniform;    // uniform or lookup
 
             // uniform option
-            temperature     constant 500; // fixed temperature with time [K]
+            minFieldValue     constant 500; // fixed temperature with time 500[K]
+            
+            scaleCoeff       1;
 
             // lookup option
-            // TName        T;          // optional temperature field name
+            fieldName        T;          // optional scalar field name
         }
 
 Note:
@@ -53,7 +55,7 @@ SourceFiles
 #define limitScalarFieldConstraint_H
 
 #include "cellSetOption.H"
-#include "NamedEnum.H"
+#include "Enum.H"
 #include "Function1.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -82,7 +84,7 @@ protected:
         //-
         scalar scaleCoeff_;
 
-        //- Temperature field name
+        //- Scalar field name
         word fieldName_;
 
 
