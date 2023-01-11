@@ -29,18 +29,18 @@ autoPtr<controllerModel> controllerModel::New
 
     Info<< "Selecting controllerModel type " << modelType << endl;
 
-    dictionaryConstructorTable::iterator cstrIter =
-	dictionaryConstructorTablePtr_->find(modelType);
+    auto cstrIter =
+        dictionaryConstructorTablePtr_->find(modelType);
 
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
-	FatalErrorIn
-	(
-	    "controllerModel::New(const word&, const dictionary&, const fvMesh&)"
-	)   << "Unknown Model type " << modelType << nl << nl
-	<< "Valid model types are:" << nl
-	<< dictionaryConstructorTablePtr_->sortedToc()
-	<< exit(FatalError);
+        FatalErrorIn
+        (
+            "controllerModel::New(const word&, const dictionary&, const fvMesh&)"
+        )   << "Unknown Model type " << modelType << nl << nl
+        << "Valid model types are:" << nl
+        << dictionaryConstructorTablePtr_->sortedToc()
+        << exit(FatalError);
     }
 
     return autoPtr<controllerModel>(cstrIter()(name, modelType, parentDict, time));
