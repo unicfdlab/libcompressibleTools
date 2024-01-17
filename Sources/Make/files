@@ -25,7 +25,6 @@ fvOptions/corrections/setComponentValue/setComponentValue.C
  * Function Objects
  */
 functionObjects/maxCellCourantFunctionObject/maxCellCourant.C
-functionObjects/PumpStat/PumpStat.C
 
 /*
  * Thermophysical properties
