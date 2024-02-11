@@ -164,24 +164,28 @@ bool Foam::functionObjects::maxCellCourant::write()
             const surfaceScalarField& alpha_nei = mesh.thisDb().lookupObject<surfaceScalarField>("alpha_nei");
             const surfaceScalarField& uMagSf    = mesh.thisDb().lookupObject<surfaceScalarField>("uMagSf");
             
-            surfaceScalarField magUf =
-            mag
+            surfaceScalarField magUf
             (
-                phi
-                / 
+                mag
                 (
-                    rho_own * alpha_own
-                    +
-                    rho_nei * alpha_nei
-                ) / uMagSf
+                    phi
+                    /
+                    (
+                        rho_own * alpha_own
+                        +
+                        rho_nei * alpha_nei
+                    ) / uMagSf
+                )
             );
             
-            surfaceScalarField faceCo =
+            surfaceScalarField faceCo
+            (
                 mesh.surfaceInterpolation::deltaCoeffs()
                 *
                 magUf
                 *
-                runTime.deltaT() * 2.0;
+                runTime.deltaT() * 2.0
+            );
             
             forAll(mesh.cells(), iCell)
             {
