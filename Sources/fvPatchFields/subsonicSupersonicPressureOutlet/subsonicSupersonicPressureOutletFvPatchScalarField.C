@@ -135,7 +135,7 @@ void Foam::subsonicSupersonicPressureOutletFvPatchScalarField::updateCoeffs()
     const vectorField Up     = db().lookupObject<volVectorField>(UName_).boundaryField()[patch().index()];
     
     //
-    const scalarField c = sqrt(gammap / psip);
+    const scalarField c (sqrt(gammap / psip));
     
     //-
     const scalarField phip   = db().lookupObject<surfaceScalarField>(phiName_).boundaryField()[patch().index()];

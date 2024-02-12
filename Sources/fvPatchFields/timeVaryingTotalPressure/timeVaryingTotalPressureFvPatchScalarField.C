@@ -194,7 +194,7 @@ void Foam::timeVaryingTotalPressureFvPatchScalarField::updateCoeffs
                 thermo.gamma(pp, Tp, patch().index())
             );
             
-            scalarField gM1ByG = (gammap - 1.0)/gammap;
+            scalarField gM1ByG ((gammap - 1.0)/gammap);
 
             operator==
             (
